@@ -4,7 +4,7 @@ import {NewRoomForm} from './NewRoomForm';
 import '../Styles/House.css';
 
 export const House = (props) => {
-	const { house, updateHouse, deleteHouse} = props;
+	const { house, houses, updateHouse, deleteHouse} = props;
 
 	const deleteRoom = (roomId) => {
 		const updatedHouse = {
@@ -30,7 +30,10 @@ export const House = (props) => {
 	);
 	return (
 		<div className = 'house-main'>
-			<button className = 'close' onClick={() => deleteHouse(house._id)}>X</button>
+			<button className = 'close' onClick={() => {
+				deleteHouse(house, houses);
+				console.log(house._id)
+			}}>X</button>
 			<h1>{house.name}</h1>
 			{
 				rooms({rooms,houseId: house._id, deleteRoom})

@@ -24,11 +24,10 @@ export default class HouseList extends Component{
 		this.fetchHouses();
 	};
 
-	deleteHouse = async (deletedHouse) => {
-		await housesApi.delete(deletedHouse);
-		this.setState({
-			houses: this.houses.filter((x) => x._id !== this.houses._Id)
-		});
+	deleteHouse = async (house) => {
+		await housesApi.delete(house);
+		this.setState({ houses: this.houses });
+		console.log(this.houses);
 	}
 	
 
@@ -39,6 +38,7 @@ export default class HouseList extends Component{
 				{this.state.houses.map((house) => (
 					<House 
 						house={house}
+						houses={this.houses}
 						key={house._id}
 						updateHouse={this.updateHouse}
 						deleteHouse={this.deleteHouse}
