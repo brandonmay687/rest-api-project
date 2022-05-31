@@ -56,7 +56,6 @@ class HousesApi{
 				method: 'DELETE'
 				});
 		}
-
 		catch(err){
 			console.error(err);
 		}

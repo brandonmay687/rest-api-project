@@ -1,53 +1,54 @@
-import React, { Component } from 'react';
-import {House} from './House';
-import {housesApi} from '../rest/HousesApi.js';
-import {NewHouseForm} from './NewHouseForm';
+import React, { useState, useEffect } from 'react';
+import House from './House';
+import { housesApi } from '../rest/HousesApi.js';
+import NewHouseForm from './NewHouseForm';
 
 import '../Styles/HouseList.css';
 
-export default class HouseList extends Component{
-	state = {
-		houses: []
-	};
+const HouseList = () => {
+	const [ houses, setHouses ] = useState([]);
 
-	componentDidMount(){
-		this.fetchHouses();
-	}
-
-	fetchHouses = async () => {
+	const fetchHouses = async () => {
 		const houses = await housesApi.get();
-		this.setState({houses});
+		setHouses( houses )
 	};
 
-	updateHouse = async(updatedHouse) => {
-		await housesApi.put(updatedHouse);
-		this.fetchHouses();
-	};
-
-	deleteHouse = async (house) => {
-		await housesApi.delete(house);
-		this.setState({ houses: this.houses });
-		console.log(this.houses);
+	const createHouse = async (houseName) => {
+		await housesApi.create(houseName);
+		fetchHouses();
 	}
-	
 
-	render(){
+	const updateHouse = async(updatedHouse) => {
+		await housesApi.put(updatedHouse);
+		fetchHouses();
+	};
+
+	const deleteHouse = async (house) => {
+		await housesApi.delete(house);
+		fetchHouses();
+	}
+
+	useEffect(() => {
+		fetchHouses();
+	}, [])
+
+	console.log(houses)
 		return (
 			<div className="house-list">
-				<NewHouseForm />
-				{this.state.houses.map((house) => (
+				<NewHouseForm createHouse = { createHouse } />
+				{houses.map(house => (
 					<House 
-						house={house}
-						houses={this.houses}
-						key={house._id}
-						updateHouse={this.updateHouse}
-						deleteHouse={this.deleteHouse}
+						house = { house }
+						houses = { houses }
+						key = { house._id }
+						updateHouse = { updateHouse }
+						deleteHouse = { deleteHouse }
 					/>
 					
-				))}
+				))
+				}
 			</div>
 		)
 	}
-}
 
-
+	export default HouseList;

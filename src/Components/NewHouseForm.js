@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { housesApi } from '../rest/HousesApi.js';
 
 
-export const NewHouseForm = () => {
+const NewHouseForm = props => {
 	const[name, setName] = useState('');
 
 	const onSubmit = (e) => {
 		e.preventDefault();
 		if (name){
-		housesApi.create(name);
+		props.createHouse(name);
 		setName('');
 		} 
 		else{
@@ -37,3 +37,4 @@ export const NewHouseForm = () => {
 };
 
 
+export  default NewHouseForm;

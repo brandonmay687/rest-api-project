@@ -25,7 +25,7 @@ export const NewRoomForm = (props) => {
 		}
 };
 	return(
-		<div>
+		<div className = 'new-room-main'>
 			<h4>Add a new room</h4>
 			<form onSubmit={onSubmit}>
 				<input
